@@ -1,0 +1,61 @@
+//
+//  NSURLSession+hook.m
+//  DNSTest
+//
+//  Created by tom555cat on 2019/5/6.
+//  Copyright © 2019年 tongleiming. All rights reserved.
+//
+
+#import "NSURLSession+hook.h"
+#import <objc/runtime.h>
+#import "CustomURLProtocol.h"
+
+@implementation NSURLSession (hook)
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Method method1 = class_getClassMethod([NSURLSession class], @selector(sessionWithConfiguration:));
+        Method method2 = class_getClassMethod([NSURLSession class], @selector(swizzle_sessionWithConfiguration:));
+        method_exchangeImplementations(method1, method2);
+        
+        Method method3 = class_getClassMethod([NSURLSession class], @selector(sessionWithConfiguration:delegate:delegateQueue:));
+        Method method4 = class_getClassMethod([NSURLSession class], @selector(swizzle_sessionWithConfiguration:delegate:delegateQueue:));
+        method_exchangeImplementations(method3, method4);
+    });
+}
+
++ (NSURLSession *)swizzle_sessionWithConfiguration:(NSURLSessionConfiguration *)configuration {
+    NSURLSessionConfiguration *newConfiguration = configuration;
+    if (configuration) {
+        NSMutableArray *protocolArray = [NSMutableArray arrayWithArray:configuration.protocolClasses];
+        [protocolArray insertObject:[CustomURLProtocol class] atIndex:0];
+        newConfiguration.protocolClasses = protocolArray;
+    } else {
+        newConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        NSMutableArray *protocolArray = [NSMutableArray arrayWithArray:configuration.protocolClasses];
+        [protocolArray insertObject:[CustomURLProtocol class] atIndex:0];
+        newConfiguration.protocolClasses = protocolArray;
+    }
+    
+    return [self swizzle_sessionWithConfiguration:newConfiguration];
+}
+
++ (NSURLSession *)swizzle_sessionWithConfiguration:(NSURLSessionConfiguration *)configuration delegate:(nullable id <NSURLSessionDelegate>)delegate delegateQueue:(nullable NSOperationQueue *)queue {
+    
+    NSURLSessionConfiguration *newConfiguration = configuration;
+    if (configuration) {
+        NSMutableArray *protocolArray = [NSMutableArray arrayWithArray:configuration.protocolClasses];
+        [protocolArray insertObject:[CustomURLProtocol class] atIndex:0];
+        newConfiguration.protocolClasses = protocolArray;
+    } else {
+        newConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        NSMutableArray *protocolArray = [NSMutableArray arrayWithArray:configuration.protocolClasses];
+        [protocolArray insertObject:[CustomURLProtocol class] atIndex:0];
+        newConfiguration.protocolClasses = protocolArray;
+    }
+    
+    return [self sessionWithConfiguration:newConfiguration delegate:delegate delegateQueue:queue];
+}
+
+@end

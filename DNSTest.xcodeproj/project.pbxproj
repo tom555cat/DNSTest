@@ -15,6 +15,7 @@
 		8E0828D9228030A5009E23A2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0828D8228030A5009E23A2 /* main.m */; };
 		8E0828E122803411009E23A2 /* CustomURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0828E022803411009E23A2 /* CustomURLProtocol.m */; };
 		8E0829122280686C009E23A2 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0829112280686C009E23A2 /* TestViewController.m */; };
+		E990E10822808B010080C0D5 /* NSURLSession+hook.m in Sources */ = {isa = PBXBuildFile; fileRef = E990E10722808B010080C0D5 /* NSURLSession+hook.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,8 @@
 		8E0828E022803411009E23A2 /* CustomURLProtocol.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomURLProtocol.m; sourceTree = "<group>"; };
 		8E0829102280686C009E23A2 /* TestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		8E0829112280686C009E23A2 /* TestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
+		E990E10622808B010080C0D5 /* NSURLSession+hook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLSession+hook.h"; sourceTree = "<group>"; };
+		E990E10722808B010080C0D5 /* NSURLSession+hook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSession+hook.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +67,8 @@
 		8E0828C8228030A4009E23A2 /* DNSTest */ = {
 			isa = PBXGroup;
 			children = (
+				E990E10622808B010080C0D5 /* NSURLSession+hook.h */,
+				E990E10722808B010080C0D5 /* NSURLSession+hook.m */,
 				8E0828C9228030A4009E23A2 /* AppDelegate.h */,
 				8E0828CA228030A4009E23A2 /* AppDelegate.m */,
 				8E0828CC228030A4009E23A2 /* ViewController.h */,
@@ -155,6 +160,7 @@
 				8E0828D9228030A5009E23A2 /* main.m in Sources */,
 				8E0828E122803411009E23A2 /* CustomURLProtocol.m in Sources */,
 				8E0828CB228030A4009E23A2 /* AppDelegate.m in Sources */,
+				E990E10822808B010080C0D5 /* NSURLSession+hook.m in Sources */,
 				8E0829122280686C009E23A2 /* TestViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
