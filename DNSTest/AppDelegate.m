@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "CustomURLProtocol.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    [NSURLProtocol registerClass:[CustomURLProtocol class]];
+    
+    // An array of extra protocol subclasses that handle requests in a session.
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    configuration.protocolClasses = @[[CustomURLProtocol class]];
+    
     return YES;
 }
 

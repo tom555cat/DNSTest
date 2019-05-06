@@ -13,6 +13,8 @@
 		8E0828D3228030A5009E23A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E0828D2228030A5009E23A2 /* Assets.xcassets */; };
 		8E0828D6228030A5009E23A2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E0828D4228030A5009E23A2 /* LaunchScreen.storyboard */; };
 		8E0828D9228030A5009E23A2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0828D8228030A5009E23A2 /* main.m */; };
+		8E0828E122803411009E23A2 /* CustomURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0828E022803411009E23A2 /* CustomURLProtocol.m */; };
+		8E0829122280686C009E23A2 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0829112280686C009E23A2 /* TestViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,10 @@
 		8E0828D5228030A5009E23A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8E0828D7228030A5009E23A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E0828D8228030A5009E23A2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8E0828DF22803411009E23A2 /* CustomURLProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomURLProtocol.h; sourceTree = "<group>"; };
+		8E0828E022803411009E23A2 /* CustomURLProtocol.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomURLProtocol.m; sourceTree = "<group>"; };
+		8E0829102280686C009E23A2 /* TestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
+		8E0829112280686C009E23A2 /* TestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +73,10 @@
 				8E0828D4228030A5009E23A2 /* LaunchScreen.storyboard */,
 				8E0828D7228030A5009E23A2 /* Info.plist */,
 				8E0828D8228030A5009E23A2 /* main.m */,
+				8E0828DF22803411009E23A2 /* CustomURLProtocol.h */,
+				8E0828E022803411009E23A2 /* CustomURLProtocol.m */,
+				8E0829102280686C009E23A2 /* TestViewController.h */,
+				8E0829112280686C009E23A2 /* TestViewController.m */,
 			);
 			path = DNSTest;
 			sourceTree = "<group>";
@@ -143,7 +153,9 @@
 			files = (
 				8E0828CE228030A4009E23A2 /* ViewController.m in Sources */,
 				8E0828D9228030A5009E23A2 /* main.m in Sources */,
+				8E0828E122803411009E23A2 /* CustomURLProtocol.m in Sources */,
 				8E0828CB228030A4009E23A2 /* AppDelegate.m in Sources */,
+				8E0829122280686C009E23A2 /* TestViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

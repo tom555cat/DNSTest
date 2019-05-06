@@ -1,29 +1,27 @@
 //
-//  ViewController.m
+//  TestViewController.m
 //  DNSTest
 //
 //  Created by tongleiming on 2019/5/6.
 //  Copyright © 2019 tongleiming. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "TestViewController.h"
 
-@interface ViewController () <NSURLSessionTaskDelegate>
-
-@property (nonatomic, strong) NSURLSession *ownSession;
+@interface TestViewController ()
 
 @end
 
-@implementation ViewController
+@implementation TestViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    // Do any additional setup after loading the view.
     
-    NSString *url = [NSString stringWithFormat:@"http://119.29.29.29/d?dn=www.baidu.com&ttl=1"];
-    //NSString *url = @"http://www.baidu.com";
+    NSString *url = [NSString stringWithFormat:@"https://djia.daling.com/api/cartnew/add"];
     NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:nil];
+    
     NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSString *result = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
         NSArray *ipArray = [result componentsSeparatedByString:@";"];
@@ -34,7 +32,5 @@
     }];
     [dataTask resume];
 }
-
-
 
 @end
