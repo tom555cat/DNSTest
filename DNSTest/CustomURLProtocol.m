@@ -29,7 +29,6 @@
 - (void)startLoading {
     // 对拦截的请求做一些处理，比如进行域名替换IP地址
     NSString *ip = [[NSUserDefaults standardUserDefaults] stringForKey:@"DNS_TO_IP"];
-    
     NSMutableURLRequest *mutableRequest = [[self request] mutableCopy];
     NSURL *url = mutableRequest.URL;
     NSRange hostRange = [url.absoluteString rangeOfString:url.host];
@@ -37,6 +36,10 @@
     [urlStr stringByReplacingCharactersInRange:hostRange withString:ip];
     [mutableRequest setURL:[NSURL URLWithString:urlStr]];
     
+    // 在header中增加域名，防止运营商懵逼
+    [mutableRequest setValue:@"djia.daling.com" forHTTPHeaderField:@"HOST"];
+    
+    // 重新进行请求
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:nil];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:mutableRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSLog(@"请求成功");

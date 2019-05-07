@@ -7,6 +7,8 @@
 //
 
 #import "ViewController.h"
+#import "TestViewController.h"
+#import "RootTableViewController.h"
 
 @interface ViewController () <NSURLSessionTaskDelegate>
 
@@ -20,7 +22,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    NSString *url = [NSString stringWithFormat:@"http://119.29.29.29/d?dn=www.baidu.com&ttl=1"];
+    NSString *url = [NSString stringWithFormat:@"http://119.29.29.29/d?dn=djia.daling.com&ttl=1"];
     //NSString *url = @"http://www.baidu.com";
     NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:nil];
@@ -33,6 +35,16 @@
         }
     }];
     [dataTask resume];
+}
+
+- (IBAction)HTTPTestClick:(id)sender {
+    TestViewController *vc = [[TestViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (IBAction)AVPlayerTestClick:(id)sender {
+    RootTableViewController *vc = [[RootTableViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 

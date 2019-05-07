@@ -17,11 +17,17 @@
     dispatch_once(&onceToken, ^{
         Method method1 = class_getClassMethod([NSURLSession class], @selector(sessionWithConfiguration:));
         Method method2 = class_getClassMethod([NSURLSession class], @selector(swizzle_sessionWithConfiguration:));
-        method_exchangeImplementations(method1, method2);
+        if (method1 && method2) {
+            method_exchangeImplementations(method1, method2);
+        }
+        
         
         Method method3 = class_getClassMethod([NSURLSession class], @selector(sessionWithConfiguration:delegate:delegateQueue:));
         Method method4 = class_getClassMethod([NSURLSession class], @selector(swizzle_sessionWithConfiguration:delegate:delegateQueue:));
-        method_exchangeImplementations(method3, method4);
+        if (method3 && method4) {
+            method_exchangeImplementations(method3, method4);
+        }
+        
     });
 }
 
@@ -55,7 +61,7 @@
         newConfiguration.protocolClasses = protocolArray;
     }
     
-    return [self sessionWithConfiguration:newConfiguration delegate:delegate delegateQueue:queue];
+    return [self swizzle_sessionWithConfiguration:newConfiguration delegate:delegate delegateQueue:queue];
 }
 
 @end

@@ -22,8 +22,8 @@
     [NSURLProtocol registerClass:[CustomURLProtocol class]];
     
     // An array of extra protocol subclasses that handle requests in a session.
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    configuration.protocolClasses = @[[CustomURLProtocol class]];
+//    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+//    configuration.protocolClasses = @[[CustomURLProtocol class]];
     
     return YES;
 }
