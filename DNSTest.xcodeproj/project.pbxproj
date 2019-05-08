@@ -15,6 +15,7 @@
 		8E0828D9228030A5009E23A2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0828D8228030A5009E23A2 /* main.m */; };
 		8E0828E122803411009E23A2 /* CustomURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0828E022803411009E23A2 /* CustomURLProtocol.m */; };
 		8E0829122280686C009E23A2 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0829112280686C009E23A2 /* TestViewController.m */; };
+		8EC0ECAF2282FAB700B69069 /* PostTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC0ECAE2282FAB700B69069 /* PostTestViewController.m */; };
 		E990E10822808B010080C0D5 /* NSURLSession+hook.m in Sources */ = {isa = PBXBuildFile; fileRef = E990E10722808B010080C0D5 /* NSURLSession+hook.m */; };
 		E9C6E0162281D52D00872E18 /* AVPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C6E0152281D52D00872E18 /* AVPlayerViewController.m */; };
 		E9C6E09A2281DBB800872E18 /* GetVideoDataTools.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C6E01B2281DBB700872E18 /* GetVideoDataTools.m */; };
@@ -90,6 +91,8 @@
 		8E0828E022803411009E23A2 /* CustomURLProtocol.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomURLProtocol.m; sourceTree = "<group>"; };
 		8E0829102280686C009E23A2 /* TestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		8E0829112280686C009E23A2 /* TestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
+		8EC0ECAD2282FAB700B69069 /* PostTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostTestViewController.h; sourceTree = "<group>"; };
+		8EC0ECAE2282FAB700B69069 /* PostTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostTestViewController.m; sourceTree = "<group>"; };
 		E990E10622808B010080C0D5 /* NSURLSession+hook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLSession+hook.h"; sourceTree = "<group>"; };
 		E990E10722808B010080C0D5 /* NSURLSession+hook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSession+hook.m"; sourceTree = "<group>"; };
 		E9C6E0142281D52D00872E18 /* AVPlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AVPlayerViewController.h; sourceTree = "<group>"; };
@@ -256,6 +259,8 @@
 				E9C6E0142281D52D00872E18 /* AVPlayerViewController.h */,
 				E9C6E0152281D52D00872E18 /* AVPlayerViewController.m */,
 				E9C6E0D52281DD0A00872E18 /* iosPrefixHeader.h */,
+				8EC0ECAD2282FAB700B69069 /* PostTestViewController.h */,
+				8EC0ECAE2282FAB700B69069 /* PostTestViewController.m */,
 			);
 			path = DNSTest;
 			sourceTree = "<group>";
@@ -621,6 +626,7 @@
 				E9C6E0D22281DBB800872E18 /* UIView+WebCacheOperation.m in Sources */,
 				E9C6E0BE2281DBB800872E18 /* CFDanmakuView.m in Sources */,
 				E9C6E0CF2281DBB800872E18 /* SDWebImageDownloaderOperation.m in Sources */,
+				8EC0ECAF2282FAB700B69069 /* PostTestViewController.m in Sources */,
 				E9C6E0B82281DBB800872E18 /* MJRefreshGifHeader.m in Sources */,
 				E9C6E0B52281DBB800872E18 /* MJRefreshAutoNormalFooter.m in Sources */,
 				8E0829122280686C009E23A2 /* TestViewController.m in Sources */,

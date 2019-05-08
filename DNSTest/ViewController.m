@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "TestViewController.h"
 #import "RootTableViewController.h"
+#import "PostTestViewController.h"
 
 @interface ViewController () <NSURLSessionTaskDelegate>
 
@@ -47,6 +48,10 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (IBAction)PostTestClick:(id)sender {
+    PostTestViewController *vc = [[PostTestViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 
 @end
