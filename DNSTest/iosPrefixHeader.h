@@ -14,4 +14,6 @@
 #import "KEYHeader.h"
 #import "URLHeader.h"
 
+static const NSString *host = @"www.baidu.com";
+
 #endif /* iosPrefixHeader_h */

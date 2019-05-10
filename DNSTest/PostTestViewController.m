@@ -18,7 +18,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    NSString *url = [NSString stringWithFormat:@"https://djia.daling.com/xc_sale/goods/defaultAddress.do"];
+    NSString *url = [NSString stringWithFormat:@"https://%@/xc_sale/goods/defaultAddress.do", host];
     NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     request.HTTPMethod = @"POST";
     request.HTTPBody = [@"HelloWorld" dataUsingEncoding:NSUTF8StringEncoding];

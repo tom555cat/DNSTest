@@ -10,6 +10,7 @@
 #import "TestViewController.h"
 #import "RootTableViewController.h"
 #import "PostTestViewController.h"
+#import "WKWebViewTestController.h"
 
 @interface ViewController () <NSURLSessionTaskDelegate>
 
@@ -23,7 +24,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    NSString *url = [NSString stringWithFormat:@"http://119.29.29.29/d?dn=djia.daling.com&ttl=1"];
+    NSString *url = [NSString stringWithFormat:@"http://119.29.29.29/d?dn=%@&ttl=1", host];
     //NSString *url = @"http://www.baidu.com";
     NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:nil];
@@ -52,6 +53,12 @@
     PostTestViewController *vc = [[PostTestViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+- (IBAction)WKWebviewTest:(id)sender {
+    WKWebViewTestController *vc = [[WKWebViewTestController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 
 
 @end

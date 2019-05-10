@@ -8,13 +8,25 @@
 
 #import "CustomURLProtocol.h"
 
+@interface CustomURLProtocol () <NSURLSessionDelegate>
+
+@property (nonnull,strong) NSURLSessionDataTask *task;
+
+@end
+
 @implementation CustomURLProtocol
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request {
+    if ([NSURLProtocol propertyForKey:@"haha" inRequest:request]) {
+        // 我自己复制的request也会走到这里，如果不排除就会
+        NSLog(@"又遇到了替换ip的请求");
+        return NO;
+    }
+    
     // Determines whether the protocol subclass can handle the specified request.
     // 拦截对域名的请求：http://fe.corp.daling.com/
     NSURL *url = request.URL;
-    if ([url.host isEqualToString:@"djia.daling.com"]) {
+    if ([url.host isEqualToString:host]) {
         return YES;
     }
     return NO;
@@ -38,6 +50,8 @@
         mutableRequest = [[self request] mutableCopy];
     }
     
+    [NSURLProtocol setProperty:@YES forKey:@"haha" inRequest:mutableRequest];
+    
     
     NSURL *url = mutableRequest.URL;
     NSRange hostRange = [url.absoluteString rangeOfString:url.host];
@@ -46,14 +60,12 @@
     [mutableRequest setURL:[NSURL URLWithString:urlStr]];
     
     // 在header中增加域名，防止运营商懵逼
-    [mutableRequest setValue:@"djia.daling.com" forHTTPHeaderField:@"HOST"];
+    [mutableRequest setValue:host forHTTPHeaderField:@"HOST"];
     
     // 重新进行请求
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:nil];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:mutableRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSLog(@"请求成功");
-    }];
-    [task resume];
+    self.task = [session dataTaskWithRequest:mutableRequest];
+    [self.task resume];
 }
 
 - (void)stopLoading {
@@ -82,6 +94,22 @@
         }
     }
     return req;
+}
+
+#pragma mark - NSURLSessionDelegate
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler {
+    [[self client] URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageAllowed];
+    
+    completionHandler(NSURLSessionResponseAllow);
+}
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
+    [[self client] URLProtocol:self didLoadData:data];
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(nullable NSError *)error {
+    [self.client URLProtocolDidFinishLoading:self];
 }
 
 @end

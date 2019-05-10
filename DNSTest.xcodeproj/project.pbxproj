@@ -16,6 +16,8 @@
 		8E0828E122803411009E23A2 /* CustomURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0828E022803411009E23A2 /* CustomURLProtocol.m */; };
 		8E0829122280686C009E23A2 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0829112280686C009E23A2 /* TestViewController.m */; };
 		8EC0ECAF2282FAB700B69069 /* PostTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC0ECAE2282FAB700B69069 /* PostTestViewController.m */; };
+		8EC0ECB22283BF0D00B69069 /* WKWebViewTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC0ECB12283BF0D00B69069 /* WKWebViewTestController.m */; };
+		8EC0ECEE2283C99400B69069 /* NSURLProtocol+WKWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC0ECED2283C99400B69069 /* NSURLProtocol+WKWebView.m */; };
 		E990E10822808B010080C0D5 /* NSURLSession+hook.m in Sources */ = {isa = PBXBuildFile; fileRef = E990E10722808B010080C0D5 /* NSURLSession+hook.m */; };
 		E9C6E0162281D52D00872E18 /* AVPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C6E0152281D52D00872E18 /* AVPlayerViewController.m */; };
 		E9C6E09A2281DBB800872E18 /* GetVideoDataTools.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C6E01B2281DBB700872E18 /* GetVideoDataTools.m */; };
@@ -93,6 +95,10 @@
 		8E0829112280686C009E23A2 /* TestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		8EC0ECAD2282FAB700B69069 /* PostTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostTestViewController.h; sourceTree = "<group>"; };
 		8EC0ECAE2282FAB700B69069 /* PostTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostTestViewController.m; sourceTree = "<group>"; };
+		8EC0ECB02283BF0D00B69069 /* WKWebViewTestController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WKWebViewTestController.h; sourceTree = "<group>"; };
+		8EC0ECB12283BF0D00B69069 /* WKWebViewTestController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WKWebViewTestController.m; sourceTree = "<group>"; };
+		8EC0ECEC2283C99400B69069 /* NSURLProtocol+WKWebView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURLProtocol+WKWebView.h"; sourceTree = "<group>"; };
+		8EC0ECED2283C99400B69069 /* NSURLProtocol+WKWebView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURLProtocol+WKWebView.m"; sourceTree = "<group>"; };
 		E990E10622808B010080C0D5 /* NSURLSession+hook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLSession+hook.h"; sourceTree = "<group>"; };
 		E990E10722808B010080C0D5 /* NSURLSession+hook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSession+hook.m"; sourceTree = "<group>"; };
 		E9C6E0142281D52D00872E18 /* AVPlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AVPlayerViewController.h; sourceTree = "<group>"; };
@@ -261,6 +267,10 @@
 				E9C6E0D52281DD0A00872E18 /* iosPrefixHeader.h */,
 				8EC0ECAD2282FAB700B69069 /* PostTestViewController.h */,
 				8EC0ECAE2282FAB700B69069 /* PostTestViewController.m */,
+				8EC0ECB02283BF0D00B69069 /* WKWebViewTestController.h */,
+				8EC0ECB12283BF0D00B69069 /* WKWebViewTestController.m */,
+				8EC0ECEC2283C99400B69069 /* NSURLProtocol+WKWebView.h */,
+				8EC0ECED2283C99400B69069 /* NSURLProtocol+WKWebView.m */,
 			);
 			path = DNSTest;
 			sourceTree = "<group>";
@@ -600,6 +610,7 @@
 				E9C6E0BC2281DBB800872E18 /* MJRefreshAutoFooter.m in Sources */,
 				E9C6E0BA2281DBB800872E18 /* MJRefreshHeader.m in Sources */,
 				E9C6E0B02281DBB800872E18 /* MJRefreshBackGifFooter.m in Sources */,
+				8EC0ECB22283BF0D00B69069 /* WKWebViewTestController.m in Sources */,
 				8E0828CB228030A4009E23A2 /* AppDelegate.m in Sources */,
 				E9C6E0D42281DBB800872E18 /* CFDanmakuInfo.m in Sources */,
 				E9C6E0D02281DBB800872E18 /* NSData+ImageContentType.m in Sources */,
@@ -635,6 +646,7 @@
 				E9C6E09F2281DBB800872E18 /* VideoViewController.m in Sources */,
 				E9C6E09C2281DBB800872E18 /* RootTableViewCell.m in Sources */,
 				E9C6E0A32281DBB800872E18 /* RootTableViewController.m in Sources */,
+				8EC0ECEE2283C99400B69069 /* NSURLProtocol+WKWebView.m in Sources */,
 				E9C6E0B92281DBB800872E18 /* MJRefreshFooter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

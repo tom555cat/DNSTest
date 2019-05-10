@@ -19,8 +19,16 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+    // 注册我们自己的protocol
     [NSURLProtocol registerClass:[CustomURLProtocol class]];
     
+//    Class cls = NSClassFromString(@"WKBrowsingContextController");
+//    SEL sel = NSSelectorFromString(@"registerSchemeForCustomProtocol:");
+//    if ([cls respondsToSelector:sel]) {
+//        // 通过http和https的请求，同理可以通过其他的scheme，但是要满足URL Loading System
+//        [cls performSelector:sel withObject:@"http"];
+//        [cls performSelector:sel withObject:@"https"];
+//    }
     // An array of extra protocol subclasses that handle requests in a session.
 //    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
 //    configuration.protocolClasses = @[[CustomURLProtocol class]];
