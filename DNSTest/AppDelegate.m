@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "CustomURLProtocol.h"
+#import "TLMHttpDns.h"
 
 @interface AppDelegate ()
 
@@ -19,8 +19,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+    [[TLMHttpDns sharedInstance] replaceDomainWithIP:@"www.baidu.com"];
+    
     // 注册我们自己的protocol
-    [NSURLProtocol registerClass:[CustomURLProtocol class]];
+    //[NSURLProtocol registerClass:[CustomURLProtocol class]];
     
 //    Class cls = NSClassFromString(@"WKBrowsingContextController");
 //    SEL sel = NSSelectorFromString(@"registerSchemeForCustomProtocol:");

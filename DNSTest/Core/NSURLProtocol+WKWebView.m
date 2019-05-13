@@ -14,7 +14,11 @@
     Class cls = NSClassFromString(@"WKBrowsingContextController");
     SEL sel = NSSelectorFromString(@"registerSchemeForCustomProtocol:");
     if ([cls respondsToSelector:sel]) {
+        // 放弃编辑器警告
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
         [cls performSelector:sel withObject:scheme];
+#pragma clang diagnostic pop
     }
 }
 
@@ -22,7 +26,11 @@
     Class cls = NSClassFromString(@"WKBrowsingContextController");
     SEL sel = NSSelectorFromString(@"unregisterSchemeForCustomProtocol:");
     if ([cls respondsToSelector:sel]) {
+        // 放弃编辑器警告
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
         [cls performSelector:sel withObject:scheme];
+#pragma clang diagnostic pop
     }
 }
 

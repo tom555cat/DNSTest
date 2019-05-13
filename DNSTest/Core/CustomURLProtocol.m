@@ -8,6 +8,9 @@
 
 #import "CustomURLProtocol.h"
 
+static NSString *const kCustomURLProtocolKey = @"kCustomURLProtocolKey";
+static NSString *kIP = nil;
+
 @interface CustomURLProtocol () <NSURLSessionDelegate>
 
 @property (nonnull,strong) NSURLSessionDataTask *task;
@@ -16,43 +19,43 @@
 
 @implementation CustomURLProtocol
 
++ (void)setIP:(NSString *)ip {
+    kIP = ip;
+}
+
 + (BOOL)canInitWithRequest:(NSURLRequest *)request {
-    if ([NSURLProtocol propertyForKey:@"haha" inRequest:request]) {
-        // 我自己复制的request也会走到这里，如果不排除就会
-        NSLog(@"又遇到了替换ip的请求");
+    if ([NSURLProtocol propertyForKey:kCustomURLProtocolKey inRequest:request]) {
+        // 自己复制的request也会走到这里，如果不排除就会进入死循环
         return NO;
     }
     
     // Determines whether the protocol subclass can handle the specified request.
-    // 拦截对域名的请求：http://fe.corp.daling.com/
+    // 拦截对域名的请求
     NSURL *url = request.URL;
-    if ([url.host isEqualToString:host]) {
+    if ([url.host isEqualToString:kCurrentHost]) {
         return YES;
     }
     return NO;
 }
 
 + (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request {
-    // 如果上面的方法返回YES，那么request会传到这里
-    // 通常什么都不做，直接返回request
+    // 如果上面的方法返回YES，那么request会传到这里，通常什么都不做，直接返回request
     return request;
 }
 
 - (void)startLoading {
-    // 对拦截的请求做一些处理，比如进行域名替换IP地址
-    NSString *ip = [[NSUserDefaults standardUserDefaults] stringForKey:@"DNS_TO_IP"];
-    
     NSMutableURLRequest *mutableRequest;
-    if ([self.request.HTTPMethod isEqualToString:@"POST"]) {
-        // 由于拷贝HTTP body的原因，单独处理
+    if ([self.request.HTTPMethod isEqualToString:@"POST"]) {  // 由于拷贝HTTP body的原因，单独处理
         mutableRequest = [self handlePostRequestBodyWithRequest:self.request];
     } else {
         mutableRequest = [[self request] mutableCopy];
     }
     
-    [NSURLProtocol setProperty:@YES forKey:@"haha" inRequest:mutableRequest];
+    // 给复制的请求打标记，打过标记的请求直接放行
+    [NSURLProtocol setProperty:@YES forKey:kCustomURLProtocolKey inRequest:mutableRequest];
     
-    
+    // 获取域名解析后的IP地址
+    NSString *ip = kIP;
     NSURL *url = mutableRequest.URL;
     NSRange hostRange = [url.absoluteString rangeOfString:url.host];
     NSMutableString *urlStr = [NSMutableString stringWithString:url.absoluteString];
@@ -60,7 +63,7 @@
     [mutableRequest setURL:[NSURL URLWithString:urlStr]];
     
     // 在header中增加域名，防止运营商懵逼
-    [mutableRequest setValue:host forHTTPHeaderField:@"HOST"];
+    [mutableRequest setValue:kCurrentHost forHTTPHeaderField:@"HOST"];
     
     // 重新进行请求
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:nil];
@@ -72,10 +75,12 @@
 
 }
 
+
+
 #pragma mark -
 #pragma mark 处理POST请求相关POST  用HTTPBodyStream来处理BODY体
 // A HTTP body stream is preserved when copying an NSURLRequest object
-- (NSMutableURLRequest *)handlePostRequestBodyWithRequest:(NSMutableURLRequest *)request {
+- (NSMutableURLRequest *)handlePostRequestBodyWithRequest:(NSURLRequest *)request {
     NSMutableURLRequest * req = [request mutableCopy];
     if ([request.HTTPMethod isEqualToString:@"POST"]) {
         if (!request.HTTPBody) {

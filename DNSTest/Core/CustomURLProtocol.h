@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CustomURLProtocol : NSURLProtocol
 
++ (void)setIP:(NSString *)ip;
+
 @end
 
 NS_ASSUME_NONNULL_END

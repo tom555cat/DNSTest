@@ -24,7 +24,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    NSString *url = [NSString stringWithFormat:@"http://119.29.29.29/d?dn=%@&ttl=1", host];
+    NSString *url = [NSString stringWithFormat:@"http://119.29.29.29/d?dn=%@&ttl=1", kCurrentHost];
     //NSString *url = @"http://www.baidu.com";
     NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:nil];
@@ -33,7 +33,7 @@
         NSArray *ipArray = [result componentsSeparatedByString:@";"];
         if (ipArray.count > 0) {
             NSString *ip = ipArray[0];
-            [[NSUserDefaults standardUserDefaults] setObject:ip forKey:@"DNS_TO_IP"];
+            [[NSUserDefaults standardUserDefaults] setObject:ip forKey:kDNS2IP];
         }
     }];
     [dataTask resume];

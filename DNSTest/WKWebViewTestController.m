@@ -23,7 +23,7 @@
     [NSURLProtocol wk_registerScheme:@"https"];
     
     
-    NSString *url = [NSString stringWithFormat:@"https://%@", host];
+    NSString *url = [NSString stringWithFormat:@"https://%@", kCurrentHost];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];

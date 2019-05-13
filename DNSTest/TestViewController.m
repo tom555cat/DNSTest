@@ -18,7 +18,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    NSString *url = [NSString stringWithFormat:@"https://%@/api/cartnew/add", host];
+    NSString *url = [NSString stringWithFormat:@"https://%@/api/cartnew/add", kCurrentHost];
     NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:nil];
     
@@ -27,7 +27,7 @@
         NSArray *ipArray = [result componentsSeparatedByString:@";"];
         if (ipArray.count > 0) {
             NSString *ip = ipArray[0];
-            [[NSUserDefaults standardUserDefaults] setObject:ip forKey:@"DNS_TO_IP"];
+            [[NSUserDefaults standardUserDefaults] setObject:ip forKey:kDNS2IP];
         }
     }];
     [dataTask resume];
