@@ -7,9 +7,13 @@
 //
 
 #import "CustomURLProtocol.h"
+#import "NSURLSession+SynchronousTask.h"
+#import "TLMHttpDns.h"
 
 static NSString *const kCustomURLProtocolKey = @"kCustomURLProtocolKey";
 static NSString *kIP = nil;
+static NSMutableDictionary *domainIPMap = nil;
+
 
 @interface CustomURLProtocol () <NSURLSessionDelegate>
 
@@ -40,6 +44,13 @@ static NSString *kIP = nil;
 
 + (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request {
     // 如果上面的方法返回YES，那么request会传到这里，通常什么都不做，直接返回request
+    // 该方法在Queue:com.apple.NSURLSession-work(serial)队列中调用，所以在这一层级做同步调用HTTPDNS请求
+    
+    // 解析request的域名对应的IP地址
+    if ([[TLMHttpDns sharedInstance].resolveHosts containsObject:request.URL.host]) {
+        [self ipForDomain:request.URL.host];
+    }
+    
     return request;
 }
 
@@ -55,7 +66,7 @@ static NSString *kIP = nil;
     [NSURLProtocol setProperty:@YES forKey:kCustomURLProtocolKey inRequest:mutableRequest];
     
     // 获取域名解析后的IP地址
-    NSString *ip = kIP;
+    NSString *ip = [[self class] ipForDomain:mutableRequest.URL.host];
     NSURL *url = mutableRequest.URL;
     NSRange hostRange = [url.absoluteString rangeOfString:url.host];
     NSMutableString *urlStr = [NSMutableString stringWithString:url.absoluteString];
@@ -75,9 +86,44 @@ static NSString *kIP = nil;
 
 }
 
-
-
 #pragma mark -
+
++ (NSString *)ipForDomain:(NSString *)domain {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        domainIPMap = [[NSMutableDictionary alloc] init];
+    });
+    
+    NSString *ip = domainIPMap[domain];
+    if (!ip) {
+        ip = [self getHostByName:domain];
+        domainIPMap[domain] = ip;
+    }
+    
+    return ip;
+}
+
++ (NSString *)getHostByName:(NSString *)domain {
+    NSString *url = [NSString stringWithFormat:@"http://119.29.29.29/d?dn=%@&ttl=1", domain];
+    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:1];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    NSURLResponse *response = nil;
+    NSError *error = nil;
+    NSData *data = [session sendSynchronousDataTaskWithRequest:request returningResponse:&response error:&error];
+    
+    // 解析ip地址
+    NSString *result = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+    NSArray *ipArray = [result componentsSeparatedByString:@";"];
+    if (ipArray.count > 0) {
+        //NSString *ip = ipArray[0];
+#warning 检查IP地址是否合规
+        //self.ip = ipArray[0];
+        return [NSString stringWithFormat:@"%@", ipArray[0]];
+    }
+    return nil;
+}
+
 #pragma mark 处理POST请求相关POST  用HTTPBodyStream来处理BODY体
 // A HTTP body stream is preserved when copying an NSURLRequest object
 - (NSMutableURLRequest *)handlePostRequestBodyWithRequest:(NSURLRequest *)request {

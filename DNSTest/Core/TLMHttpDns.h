@@ -27,7 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param domain 域名
  */
-- (void)replaceDomainWithIP:(NSString *)domain;
+- (void)replaceDomainWithIP;
+
+@property (nonatomic, copy) NSArray *resolveHosts;
 
 /**
  域名异步解析

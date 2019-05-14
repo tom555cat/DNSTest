@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DNSTest/ViewController.m"
-            timestampString = "579446016.069535"
+            timestampString = "579501423.2249629"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "28"
@@ -32,22 +32,6 @@
             startingLineNumber = "27"
             endingLineNumber = "27"
             landmarkName = "+canInitWithRequest:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DNSTest/Core/CustomURLProtocol.m"
-            timestampString = "579446043.024682"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "-startLoading"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
