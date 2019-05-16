@@ -12,7 +12,7 @@
 
 @interface TLMHttpDns ()
 
-@property (nonatomic, copy) NSString *ip;
+@property (nonatomic, assign) BOOL async;
 
 @end
 
@@ -31,9 +31,14 @@
     return [self sharedInstance];
 }
 
-- (void)replaceHostWithIP {
+- (void)replaceHostWithIPAsync:(BOOL)async {
+    self.async = async;
     [NSURLProtocol registerClass:[CustomURLProtocol class]];
 }
+
+//- (void)replaceHostWithIP {
+//    [NSURLProtocol registerClass:[CustomURLProtocol class]];
+//}
 
 
 @end

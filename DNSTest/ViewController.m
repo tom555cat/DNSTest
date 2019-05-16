@@ -24,19 +24,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    NSString *url = [NSString stringWithFormat:@"http://119.29.29.29/d?dn=%@&ttl=1", kCurrentHost];
-    //NSString *url = @"http://www.baidu.com";
-    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:nil];
-    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSString *result = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-        NSArray *ipArray = [result componentsSeparatedByString:@";"];
-        if (ipArray.count > 0) {
-            NSString *ip = ipArray[0];
-            [[NSUserDefaults standardUserDefaults] setObject:ip forKey:kDNS2IP];
-        }
-    }];
-    [dataTask resume];
+//    NSString *url = [NSString stringWithFormat:@"http://119.29.29.29/d?dn=www.baidu.com&ttl=1", kCurrentHost];
+//    //NSString *url = @"http://www.baidu.com";
+//    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+//    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:nil];
+//    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+//        NSString *result = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+//        NSArray *ipArray = [result componentsSeparatedByString:@";"];
+//        if (ipArray.count > 0) {
+//            NSString *ip = ipArray[0];
+//            [[NSUserDefaults standardUserDefaults] setObject:ip forKey:kDNS2IP];
+//        }
+//    }];
+//    [dataTask resume];
 }
 
 - (IBAction)HTTPTestClick:(id)sender {

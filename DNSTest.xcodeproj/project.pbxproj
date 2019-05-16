@@ -15,6 +15,7 @@
 		8E0828D9228030A5009E23A2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0828D8228030A5009E23A2 /* main.m */; };
 		8E0828E122803411009E23A2 /* CustomURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0828E022803411009E23A2 /* CustomURLProtocol.m */; };
 		8E0829122280686C009E23A2 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0829112280686C009E23A2 /* TestViewController.m */; };
+		8E56A953228D4658000B0894 /* TLMIPDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E56A952228D4658000B0894 /* TLMIPDefinition.m */; };
 		8EC0ECAF2282FAB700B69069 /* PostTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC0ECAE2282FAB700B69069 /* PostTestViewController.m */; };
 		8EC0ECB22283BF0D00B69069 /* WKWebViewTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC0ECB12283BF0D00B69069 /* WKWebViewTestController.m */; };
 		8EC0ECEE2283C99400B69069 /* NSURLProtocol+WKWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC0ECED2283C99400B69069 /* NSURLProtocol+WKWebView.m */; };
@@ -95,6 +96,8 @@
 		8E0828E022803411009E23A2 /* CustomURLProtocol.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomURLProtocol.m; sourceTree = "<group>"; };
 		8E0829102280686C009E23A2 /* TestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		8E0829112280686C009E23A2 /* TestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
+		8E56A951228D4658000B0894 /* TLMIPDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLMIPDefinition.h; sourceTree = "<group>"; };
+		8E56A952228D4658000B0894 /* TLMIPDefinition.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TLMIPDefinition.m; sourceTree = "<group>"; };
 		8EC0ECAD2282FAB700B69069 /* PostTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostTestViewController.h; sourceTree = "<group>"; };
 		8EC0ECAE2282FAB700B69069 /* PostTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostTestViewController.m; sourceTree = "<group>"; };
 		8EC0ECB02283BF0D00B69069 /* WKWebViewTestController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WKWebViewTestController.h; sourceTree = "<group>"; };
@@ -289,6 +292,8 @@
 				E990E10722808B010080C0D5 /* NSURLSession+hook.m */,
 				8EC0EE8722899BF800B69069 /* TLMHttpDns.h */,
 				8EC0EE8822899BF800B69069 /* TLMHttpDns.m */,
+				8E56A951228D4658000B0894 /* TLMIPDefinition.h */,
+				8E56A952228D4658000B0894 /* TLMIPDefinition.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -616,6 +621,7 @@
 				E9C6E09A2281DBB800872E18 /* GetVideoDataTools.m in Sources */,
 				E9C6E0C12281DBB800872E18 /* FMGVideoPlayView.m in Sources */,
 				8EC0EE8922899BF800B69069 /* TLMHttpDns.m in Sources */,
+				8E56A953228D4658000B0894 /* TLMIPDefinition.m in Sources */,
 				E9C6E0162281D52D00872E18 /* AVPlayerViewController.m in Sources */,
 				E9C6E0CE2281DBB800872E18 /* SDImageCache.m in Sources */,
 				E9C6E0CB2281DBB800872E18 /* UIImage+MultiFormat.m in Sources */,

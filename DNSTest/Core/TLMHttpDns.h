@@ -27,17 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param domain 域名
  */
-- (void)replaceHostWithIP;
+- (void)replaceHostWithIPAsync:(BOOL)async;
 
 @property (nonatomic, copy) NSArray *resolveHosts;
+@property (nonatomic, assign, readonly) BOOL async;
 
-/**
- 域名异步解析
-
- @param domain 域名
- @param handler 返回查询到的IP数组，超时(1s)或者未查询到返回@[]数组
- */
-- (void)getHostByNameAsync:(NSString *)domain returnIps:(void(^)(NSArray * ipsArray))handler;
 
 @end
 

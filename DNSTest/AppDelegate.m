@@ -19,8 +19,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    [TLMHttpDns sharedInstance].resolveHosts = @[@"www.baidu.com"];
-    [[TLMHttpDns sharedInstance] replaceHostWithIP];
+    [TLMHttpDns sharedInstance].resolveHosts = @[@"www.baidu.com", @"dalingjia.com"];
+    [[TLMHttpDns sharedInstance] replaceHostWithIPAsync:YES];
     
     // 注册我们自己的protocol
     //[NSURLProtocol registerClass:[CustomURLProtocol class]];

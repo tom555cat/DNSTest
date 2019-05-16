@@ -9,10 +9,11 @@
 #import "CustomURLProtocol.h"
 #import "NSURLSession+SynchronousTask.h"
 #import "TLMHttpDns.h"
+#import "TLMIPDefinition.h"
 
 static NSString *const kCustomURLProtocolKey = @"kCustomURLProtocolKey";
 static NSString *kIP = nil;
-static NSMutableDictionary *hostIPMap = nil;
+static NSMutableDictionary<NSString *, TLMIPDefinition *> *hostIPMap = nil;
 
 
 @interface CustomURLProtocol () <NSURLSessionDelegate>
@@ -35,8 +36,7 @@ static NSMutableDictionary *hostIPMap = nil;
     
     // Determines whether the protocol subclass can handle the specified request.
     // 拦截对域名的请求
-    NSURL *url = request.URL;
-    if ([url.host isEqualToString:kCurrentHost]) {
+    if ([[TLMHttpDns sharedInstance].resolveHosts containsObject:request.URL.host]) {
         return YES;
     }
     return NO;
@@ -46,39 +46,37 @@ static NSMutableDictionary *hostIPMap = nil;
     // 如果上面的方法返回YES，那么request会传到这里，通常什么都不做，直接返回request
     // 该方法在Queue:com.apple.NSURLSession-work(serial)队列中调用，所以在这一层级做同步调用HTTPDNS请求
     
-    // 解析request的域名对应的IP地址
-    if ([[TLMHttpDns sharedInstance].resolveHosts containsObject:request.URL.host]) {
-        [self ipForHost:request.URL.host];
-    }
-    
-    return request;
-}
-
-- (void)startLoading {
     NSMutableURLRequest *mutableRequest;
-    if ([self.request.HTTPMethod isEqualToString:@"POST"]) {  // 由于拷贝HTTP body的原因，单独处理
-        mutableRequest = [self handlePostRequestBodyWithRequest:self.request];
+    if ([request.HTTPMethod isEqualToString:@"POST"]) {  // 由于拷贝HTTP body的原因，单独处理
+        mutableRequest = [self handlePostRequestBodyWithRequest:request];
     } else {
-        mutableRequest = [[self request] mutableCopy];
+        mutableRequest = [request mutableCopy];
     }
     
     // 给复制的请求打标记，打过标记的请求直接放行
     [NSURLProtocol setProperty:@YES forKey:kCustomURLProtocolKey inRequest:mutableRequest];
     
-    // 获取域名解析后的IP地址
-    NSString *ip = [[self class] ipForHost:mutableRequest.URL.host];
-    NSURL *url = mutableRequest.URL;
-    NSRange hostRange = [url.absoluteString rangeOfString:url.host];
-    NSMutableString *urlStr = [NSMutableString stringWithString:url.absoluteString];
-    [urlStr stringByReplacingCharactersInRange:hostRange withString:ip];
-    [mutableRequest setURL:[NSURL URLWithString:urlStr]];
+    // 解析request的域名对应的IP地址
+    NSString *ip = [self ipForHost:request.URL.host];
+    if (ip) {   // ip地址不为空，则将host替换为ip地址，否则降级为LocalDNS解析
+        // ip地址替换host
+        NSURL *url = mutableRequest.URL;
+        NSRange hostRange = [url.absoluteString rangeOfString:url.host];
+        NSMutableString *urlStr = [NSMutableString stringWithString:url.absoluteString];
+        [urlStr stringByReplacingCharactersInRange:hostRange withString:ip];
+        [mutableRequest setURL:[NSURL URLWithString:urlStr]];
+        
+        // 在header中增加域名，防止运营商懵逼
+        [mutableRequest setValue:url.host forHTTPHeaderField:@"HOST"];
+    }
     
-    // 在header中增加域名，防止运营商懵逼
-    [mutableRequest setValue:kCurrentHost forHTTPHeaderField:@"HOST"];
-    
-    // 重新进行请求
+    return mutableRequest;
+}
+
+- (void)startLoading {
+    // 进行请求
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:nil];
-    self.task = [session dataTaskWithRequest:mutableRequest];
+    self.task = [session dataTaskWithRequest:self.request];
     [self.task resume];
 }
 
@@ -94,33 +92,78 @@ static NSMutableDictionary *hostIPMap = nil;
         hostIPMap = [[NSMutableDictionary alloc] init];
     });
     
-    NSString *ip = hostIPMap[host];
-    if (!ip) {
-        ip = [self getIPFromHTTPDNS:host];
-        hostIPMap[host] = ip;
+    TLMIPDefinition *ipDefinition = hostIPMap[host];
+    if (!ipDefinition) {
+        if ([TLMHttpDns sharedInstance].async == YES) {
+            [self getIPFromHTTPDNSAsync:host];
+            return nil;
+        } else {
+            ipDefinition = [self getIPFromHTTPDNSSync:host];
+            hostIPMap[host] = ipDefinition;
+        }
     }
     
-    return ip;
+    // 过期检查
+    if (ipDefinition) {
+        if ([ipDefinition isServerTTLTimeout]) {
+            if ([TLMHttpDns sharedInstance].async == YES) {
+                [self getIPFromHTTPDNSAsync:host];
+                return nil;
+            } else {
+                ipDefinition = [self getIPFromHTTPDNSSync:host];
+                hostIPMap[host] = ipDefinition;
+            }
+        }
+    }
+    
+    return ipDefinition.ip;
 }
 
-+ (NSString *)getIPFromHTTPDNS:(NSString *)host {
+// 从HTTPDNS中异步获取IP地址
++ (void)getIPFromHTTPDNSAsync:(NSString *)host {
     NSString *url = [NSString stringWithFormat:@"http://119.29.29.29/d?dn=%@&ttl=1", host];
-    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:1];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        TLMIPDefinition *ipDefinition = [self parseHTTPDNSResponse:data];
+        hostIPMap[host] = ipDefinition;
+    }];
+    [dataTask resume];
+}
+
+// 从HTTPDNS中同步获取IP地址
++ (TLMIPDefinition *)getIPFromHTTPDNSSync:(NSString *)host {
+    NSString *url = [NSString stringWithFormat:@"http://119.29.29.29/d?dn=%@&ttl=1", host];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
     NSURLResponse *response = nil;
     NSError *error = nil;
     NSData *data = [session sendSynchronousDataTaskWithRequest:request returningResponse:&response error:&error];
     
-    // 解析ip地址
+    TLMIPDefinition *ipDefinition = [self parseHTTPDNSResponse:data];
+    return ipDefinition;
+}
+
++ (TLMIPDefinition *)parseHTTPDNSResponse:(NSData *)data {
+    // 解析ip地址和ttl
     NSString *ip;
+    NSInteger ttl = 0;
+    
     NSString *result = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+    NSArray *ttlArray = [result componentsSeparatedByString:@","];
+    if (ttlArray.count > 1) {
+        ttl = [ttlArray[1] integerValue];
+    }
     NSArray *ipArray = [result componentsSeparatedByString:@";"];
     if (ipArray.count > 0) {
+#warning 使用返回的第一个ip地址
         ip = ipArray[0];
     }
     if ([self isIPAddressValid:ip]) {
-        return ip;
+        TLMIPDefinition *ipDefinition = [[TLMIPDefinition alloc] initWithIP:ip serverTTL:ttl];
+        return ipDefinition;
     } else {
         return nil;
     }
@@ -145,7 +188,7 @@ static NSMutableDictionary *hostIPMap = nil;
 
 #pragma mark 处理POST请求相关POST  用HTTPBodyStream来处理BODY体
 // A HTTP body stream is preserved when copying an NSURLRequest object
-- (NSMutableURLRequest *)handlePostRequestBodyWithRequest:(NSURLRequest *)request {
++ (NSMutableURLRequest *)handlePostRequestBodyWithRequest:(NSURLRequest *)request {
     NSMutableURLRequest * req = [request mutableCopy];
     if ([request.HTTPMethod isEqualToString:@"POST"]) {
         if (!request.HTTPBody) {

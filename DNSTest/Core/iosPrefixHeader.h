@@ -14,7 +14,7 @@
 #import "KEYHeader.h"
 #import "URLHeader.h"
 
-static NSString * const kCurrentHost = @"www.baidu.com";
+//static NSString * const kCurrentHost = @"www.baidu.com";
 static NSString * const kDNS2IP = @"DNS_TO_IP"; 
 
 #endif /* iosPrefixHeader_h */
