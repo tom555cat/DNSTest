@@ -12,7 +12,7 @@
 
 static NSString *const kCustomURLProtocolKey = @"kCustomURLProtocolKey";
 static NSString *kIP = nil;
-static NSMutableDictionary *domainIPMap = nil;
+static NSMutableDictionary *hostIPMap = nil;
 
 
 @interface CustomURLProtocol () <NSURLSessionDelegate>
@@ -48,7 +48,7 @@ static NSMutableDictionary *domainIPMap = nil;
     
     // 解析request的域名对应的IP地址
     if ([[TLMHttpDns sharedInstance].resolveHosts containsObject:request.URL.host]) {
-        [self ipForDomain:request.URL.host];
+        [self ipForHost:request.URL.host];
     }
     
     return request;
@@ -66,7 +66,7 @@ static NSMutableDictionary *domainIPMap = nil;
     [NSURLProtocol setProperty:@YES forKey:kCustomURLProtocolKey inRequest:mutableRequest];
     
     // 获取域名解析后的IP地址
-    NSString *ip = [[self class] ipForDomain:mutableRequest.URL.host];
+    NSString *ip = [[self class] ipForHost:mutableRequest.URL.host];
     NSURL *url = mutableRequest.URL;
     NSRange hostRange = [url.absoluteString rangeOfString:url.host];
     NSMutableString *urlStr = [NSMutableString stringWithString:url.absoluteString];
@@ -88,23 +88,23 @@ static NSMutableDictionary *domainIPMap = nil;
 
 #pragma mark -
 
-+ (NSString *)ipForDomain:(NSString *)domain {
++ (NSString *)ipForHost:(NSString *)host {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        domainIPMap = [[NSMutableDictionary alloc] init];
+        hostIPMap = [[NSMutableDictionary alloc] init];
     });
     
-    NSString *ip = domainIPMap[domain];
+    NSString *ip = hostIPMap[host];
     if (!ip) {
-        ip = [self getHostByName:domain];
-        domainIPMap[domain] = ip;
+        ip = [self getIPFromHTTPDNS:host];
+        hostIPMap[host] = ip;
     }
     
     return ip;
 }
 
-+ (NSString *)getHostByName:(NSString *)domain {
-    NSString *url = [NSString stringWithFormat:@"http://119.29.29.29/d?dn=%@&ttl=1", domain];
++ (NSString *)getIPFromHTTPDNS:(NSString *)host {
+    NSString *url = [NSString stringWithFormat:@"http://119.29.29.29/d?dn=%@&ttl=1", host];
     NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:1];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
@@ -113,15 +113,34 @@ static NSMutableDictionary *domainIPMap = nil;
     NSData *data = [session sendSynchronousDataTaskWithRequest:request returningResponse:&response error:&error];
     
     // 解析ip地址
+    NSString *ip;
     NSString *result = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
     NSArray *ipArray = [result componentsSeparatedByString:@";"];
     if (ipArray.count > 0) {
-        //NSString *ip = ipArray[0];
-#warning 检查IP地址是否合规
-        //self.ip = ipArray[0];
-        return [NSString stringWithFormat:@"%@", ipArray[0]];
+        ip = ipArray[0];
     }
-    return nil;
+    if ([self isIPAddressValid:ip]) {
+        return ip;
+    } else {
+        return nil;
+    }
+}
+
++ (BOOL)isIPAddressValid:(NSString *)ipAddress {
+    NSArray *components = [ipAddress componentsSeparatedByString:@"."];
+    if (components.count != 4) {
+        return NO;
+    }
+    NSCharacterSet *unwantedCharacters = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789."] invertedSet];
+    if ([ipAddress rangeOfCharacterFromSet:unwantedCharacters].location != NSNotFound) {
+        return NO;
+    }
+    for (NSString *string in components) {
+        if ((string.length < 1) || (string.length > 3 )) {return NO;}
+        if (string.intValue > 255) {return NO;}
+    }
+    if  ([[components objectAtIndex:0] intValue]==0){return NO;}
+    return YES;
 }
 
 #pragma mark 处理POST请求相关POST  用HTTPBodyStream来处理BODY体

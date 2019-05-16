@@ -20,7 +20,7 @@
     // Override point for customization after application launch.
     
     [TLMHttpDns sharedInstance].resolveHosts = @[@"www.baidu.com"];
-    [[TLMHttpDns sharedInstance] replaceDomainWithIP];
+    [[TLMHttpDns sharedInstance] replaceHostWithIP];
     
     // 注册我们自己的protocol
     //[NSURLProtocol registerClass:[CustomURLProtocol class]];

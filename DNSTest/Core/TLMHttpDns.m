@@ -31,7 +31,7 @@
     return [self sharedInstance];
 }
 
-- (void)replaceDomainWithIP {
+- (void)replaceHostWithIP {
     [NSURLProtocol registerClass:[CustomURLProtocol class]];
 }
 
