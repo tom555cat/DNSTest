@@ -1,5 +1,5 @@
 //
-//  CustomURLProtocol.h
+//  TLMURLProtocol.h
 //  DNSTest
 //
 //  Created by tongleiming on 2019/5/6.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CustomURLProtocol : NSURLProtocol
+@interface TLMURLProtocol : NSURLProtocol
 
 + (void)setIP:(NSString *)ip;
 

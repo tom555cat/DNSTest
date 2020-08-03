@@ -8,7 +8,6 @@
 
 #import "ViewController.h"
 #import "TestViewController.h"
-#import "RootTableViewController.h"
 #import "PostTestViewController.h"
 #import "WKWebViewTestController.h"
 
@@ -41,11 +40,6 @@
 
 - (IBAction)HTTPTestClick:(id)sender {
     TestViewController *vc = [[TestViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (IBAction)AVPlayerTestClick:(id)sender {
-    RootTableViewController *vc = [[RootTableViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

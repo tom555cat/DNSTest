@@ -26,16 +26,8 @@
                                     <action selector="HTTPTestClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VNj-tQ-28Z"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A5A-dI-fTR">
-                                <rect key="frame" x="141" y="356" width="92" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="AVPlayer测试"/>
-                                <connections>
-                                    <action selector="AVPlayerTestClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZHR-9k-bwm"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mPE-MD-v9N">
-                                <rect key="frame" x="156" y="394" width="62" height="30"/>
+                                <rect key="frame" x="156" y="356" width="62" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Post测试"/>
                                 <connections>
@@ -43,7 +35,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cs0-ae-zMx">
-                                <rect key="frame" x="129" y="432" width="117" height="30"/>
+                                <rect key="frame" x="129" y="394" width="117" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="WKWebview测试"/>
                                 <connections>

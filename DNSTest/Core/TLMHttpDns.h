@@ -14,23 +14,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)sharedInstance;
 
-/**
-  域名同步解析
+// 需要替换ip地址的host数组
+@property (nonatomic, copy) NSArray *resolveHosts;
 
- @param domain 域名
- @return 查询到的IP数组，超时(1s)或者未查询到返回@[]数组
- */
-//- (NSArray *)getHostByName:(NSString *)domain;
+// 是否从HTTPDNS异步请求ip地址
+@property (nonatomic, assign, readonly) BOOL async;
 
 /**
- 域名使用IP地址替换同步方法
+ resolveHosts中的host用ip地址替换
 
- @param domain 域名
+ @param async YES，HTTPDNS使用异步请求；NO，HTTPDNS使用同步请求
  */
 - (void)replaceHostWithIPAsync:(BOOL)async;
-
-@property (nonatomic, copy) NSArray *resolveHosts;
-@property (nonatomic, assign, readonly) BOOL async;
 
 
 @end

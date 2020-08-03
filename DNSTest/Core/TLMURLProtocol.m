@@ -1,35 +1,35 @@
 //
-//  CustomURLProtocol.m
+//  TLMURLProtocol.m
 //  DNSTest
 //
 //  Created by tongleiming on 2019/5/6.
 //  Copyright © 2019 tongleiming. All rights reserved.
 //
 
-#import "CustomURLProtocol.h"
+#import "TLMURLProtocol.h"
 #import "NSURLSession+SynchronousTask.h"
 #import "TLMHttpDns.h"
 #import "TLMIPDefinition.h"
 
-static NSString *const kCustomURLProtocolKey = @"kCustomURLProtocolKey";
+static NSString *const kTLMURLProtocolKey = @"kTLMURLProtocolKey";
 static NSString *kIP = nil;
 static NSMutableDictionary<NSString *, TLMIPDefinition *> *hostIPMap = nil;
 
 
-@interface CustomURLProtocol () <NSURLSessionDelegate>
+@interface TLMURLProtocol () <NSURLSessionDelegate>
 
 @property (nonnull,strong) NSURLSessionDataTask *task;
 
 @end
 
-@implementation CustomURLProtocol
+@implementation TLMURLProtocol
 
 + (void)setIP:(NSString *)ip {
     kIP = ip;
 }
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request {
-    if ([NSURLProtocol propertyForKey:kCustomURLProtocolKey inRequest:request]) {
+    if ([NSURLProtocol propertyForKey:kTLMURLProtocolKey inRequest:request]) {
         // 自己复制的request也会走到这里，如果不排除就会进入死循环
         return NO;
     }
@@ -54,7 +54,7 @@ static NSMutableDictionary<NSString *, TLMIPDefinition *> *hostIPMap = nil;
     }
     
     // 给复制的请求打标记，打过标记的请求直接放行
-    [NSURLProtocol setProperty:@YES forKey:kCustomURLProtocolKey inRequest:mutableRequest];
+    [NSURLProtocol setProperty:@YES forKey:kTLMURLProtocolKey inRequest:mutableRequest];
     
     // 解析request的域名对应的IP地址
     NSString *ip = [self ipForHost:request.URL.host];
